@@ -1,3 +1,4 @@
+#!/usr/bin/php
 <?php
 
 /**
@@ -83,7 +84,7 @@ final class IpInfo implements IWhoisIP
   {
     if (! isset($server))
     {
-      die('Sorry, whois server not found :(');
+      throw new \Exception('Sorry, whois server not found :(');
     } else {
       $sock = fsockopen($server, 43);
       fputs($sock, $ip."\r\n");

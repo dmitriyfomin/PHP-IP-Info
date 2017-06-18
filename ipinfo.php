@@ -11,7 +11,7 @@
 /**
 * Console system out println function
 * @param string str
-* @return string
+* @return void
 */
 function sysout($str = "")
 {
@@ -30,6 +30,7 @@ interface IWhoisIP
   */
   public function whois_connect($server, $ip);
 }
+
 
 final class IpInfo implements IWhoisIP
 {
@@ -88,7 +89,7 @@ final class IpInfo implements IWhoisIP
     } else {
       $sock = fsockopen($server, 43);
       fputs($sock, $ip."\r\n");
-      $whoistext = '';
+      $whoistext = "";
       while (! feof($sock)):
         $whoistext .= fgets($sock, 128) . PHP_EOL;
       endwhile;
@@ -105,4 +106,9 @@ final class IpInfo implements IWhoisIP
   }
 }
 
-IpInfo::getinfo();
+if (extension_loaded('geoip'))
+{
+  IpInfo::getinfo();
+} else {
+  die('Error! Need PECL GeoIP extension.');
+}
